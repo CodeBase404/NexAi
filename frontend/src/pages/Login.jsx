@@ -36,19 +36,18 @@ function Login() {
     if (error) dispatch(clearError());
   }, [isAuthenticated, error, dispatch, navigate]);
 
-  const onSubmit = (data) => {
-    const toastId = toast.loading("logging...");
-    dispatch(loginUser(data))
-    .unwrap()
-      .then(() => {
-        toast.success("Login successfully", { id: toastId });
-        navigate("/");
-      })
-      .catch((err) => {
-        const errorMsg = err?.message || err?.error || "Request Failed";
-        toast.error(errorMsg, { id: toastId });
-      });
-  };
+ const onSubmit = async (data) => {
+  const toastId = toast.loading("Logging in...");
+
+  try {
+    await dispatch(loginUser(data)).unwrap();
+    toast.success("Login successful", { id: toastId });
+    navigate("/");
+  } catch (err) {
+    const errorMsg = err?.response?.data?.error || err?.message || "Login failed";
+    toast.error(errorMsg, { id: toastId });
+  }
+};
 
   return (
     <div className="flex items-center justify-center h-screen">
@@ -133,9 +132,11 @@ function Login() {
         </div>
         <button
           type="submit"
-          className="btn btn-soft btn-primary text-[17px] rounded-md p-6"
+          disabled={loading}
+          className={`btn btn-soft btn-primary text-[17px] rounded-md p-6 transition 
+          ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
         >
-          Log in
+          {loading ? "Logging in..." : "Log in"}
         </button>
 
         <p

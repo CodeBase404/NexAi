@@ -44,20 +44,22 @@ function Register() {
     if (error) dispatch(clearError());
   }, [isAuthenticated, error, dispatch, navigate]);
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const toastId = toast.loading("Registering...");
-    dispatch(registerUser(data))
-      .unwrap()
-      .then(() => {
-        toast.success("Registered successfully", { id: toastId });
-        navigate("/");
-      })
-      .catch((err) => {
-        console.log(err);
-        
-        const errorMsg = err?.message || err?.error || "Request Failed";
-       toast.error(errorMsg, { id: toastId });
-      });
+
+    try {
+      await dispatch(registerUser(data)).unwrap();
+      toast.success("Registered successfully", { id: toastId });
+      navigate("/");
+    } catch (err) {
+      console.error("Register Error:", err);
+      const errorMsg =
+        err?.response?.data?.error ||
+        err?.message ||
+        err?.error ||
+        "Request Failed";
+      toast.error(errorMsg, { id: toastId });
+    }
   };
 
   return (
@@ -199,9 +201,11 @@ function Register() {
 
         <button
           type="submit"
-          className="btn btn-soft btn-primary text-[17px] rounded-md p-6"
+          disabled={loading}
+          className={`btn btn-soft btn-primary text-[17px] rounded-md p-6 transition 
+          ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
         >
-          Register
+          {loading ? "Registering..." : "Register"}
         </button>
 
         <p
