@@ -1,4 +1,4 @@
-import { PanelTopClose, SquarePen, LogOut } from "lucide-react";
+import { PanelTopClose, SquarePen, LogOut, Search } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import axiosClient from "../utils/axiosClient";
@@ -35,7 +35,7 @@ function Sidebar({ setIsSidebarOpen, isSidebarOpen }) {
 
   const handleNewChatClick = () => {
     navigate("/");
-    setIsSidebarOpen(false)
+    setIsSidebarOpen(false);
   };
 
   useEffect(() => {
@@ -72,39 +72,41 @@ function Sidebar({ setIsSidebarOpen, isSidebarOpen }) {
     <div
       className={`h-full ${
         isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-      } overflow-auto transition-transform flex flex-col justify-between px-4 relative bg-[#1b0f0f] z-50`}
+      } overflow-auto transition-transform flex flex-col justify-between px-4 relative bg-[#2d2d2d] z-50`}
     >
       {/* Header */}
       <div>
         <div className="flex border-b border-gray-600 p-2 justify-between items-center mb-4">
-          <div className="flex items-center gap-2 text-[18px] font-bold text-gray-200">
+          <div className="flex items-center gap-2 text-[18px] font-bold text-gray-200 py-1">
             <img src={logo} alt="DeepSeek Logo" className="h-7 rounded-lg" />
             NexAi
           </div>
           <button
             onClick={() => setIsSidebarOpen(false)}
-            className="cursor-pointer hover:bg-gray-200 hover:text-black rounded-xl p-1.5"
+            className="cursor-pointer md:hidden active:scale-95 rounded-xl p-1.5"
           >
             <PanelTopClose className="w-6 h-6 -rotate-90" />
           </button>
         </div>
 
         <button
-          className="cursor-pointer hover:bg-[#2D2D2D] text-gray-300 px-3 rounded-xl p-1.5 w-full flex items-center gap-2"
+          className="cursor-pointer bg-blue-800 active:scale-98 text-gray-300 px-3 rounded-xl p-1.5 w-full flex items-center gap-2"
           onClick={handleNewChatClick}
         >
           <SquarePen className="w-5 h-5" /> New Chat
         </button>
-        <input
-          type="text"
-          placeholder="Search chats..."
-          className="w-full mt-3 px-3 py-1.5 rounded-xl bg-[#2D2D2D] text-white placeholder-gray-400 focus:outline-none"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Search chats..."
+            className="w-full mt-3 px-3 py-1.5 pl-8.5 rounded-xl bg-[#424242] text-white placeholder-gray-400 focus:outline-none"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <Search className="absolute top-5 left-2 w-5 h-5 text-gray-400"/>
+        </div>
         {/* Chat List */}
-        <div className="flex-1 overflow-auto h-[82%] py-3 space-y-1">
+        <div className="flex-1 overflow-auto h-[82%]  py-3 space-y-1">
           {chats.length > 0 ? (
             chats.filter((chat) => {
               const messageText =
@@ -121,7 +123,7 @@ function Sidebar({ setIsSidebarOpen, isSidebarOpen }) {
                   <div
                     key={chat._id}
                     onClick={() => handleChatClick(chat._id)}
-                    className="cursor-pointer px-3 py-2 rounded-xl hover:bg-[#2D2D2D] text-gray-300 truncate"
+                    className="cursor-pointer px-3 py-2 rounded-xl hover:bg-[#424242] active:scale-98 hover:font-semibold  text-gray-200 truncate"
                     title={chat.messages?.[0]?.parts?.[0]?.text || "Empty Chat"}
                   >
                     {chat.messages?.[0]?.parts?.[0]?.text?.slice(0, 30) ||
@@ -153,7 +155,7 @@ function Sidebar({ setIsSidebarOpen, isSidebarOpen }) {
 
         <button
           onClick={handleLogout}
-          className="w-full flex items-center gap-2 text-white text-sm px-3  py-2 rounded-lg hover:bg-[#2D2D2D] duration-300 transition cursor-pointer"
+          className="w-full flex items-center active:scale-98 gap-2 text-white text-sm px-3  py-2 rounded-lg hover:bg-[#726e6e] duration-300 transition cursor-pointer"
         >
           <LogOut />
           Logout

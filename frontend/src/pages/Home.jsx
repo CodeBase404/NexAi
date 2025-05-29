@@ -1,20 +1,31 @@
 import { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
 import Promt from "../components/Promt";
-import { PanelTopOpen, SquarePen } from "lucide-react";
+import { LogOut, PanelTopOpen, SquarePen } from "lucide-react";
 import { useNavigate } from "react-router";
+import { logoutUser } from "../features/auth/authThunks";
+import logo from "../../public/logo.webp";
 
 function Home() {
-  // const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth >= 768);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await dispatch(logoutUser()).unwrap();
+      toast.success("Logout successfully");
+      navigate("/login");
+    } catch (err) {
+      toast.error("Logout failed");
+    }
+  };
 
   return (
     <div className="flex h-screen bg-[#1e1e1e] text-white overflow-hidden">
       <div
         className={`${
           isSidebarOpen
-            ? "w-50 lg:w-65 fixed md:relative top-0 left-0 h-full z-100"
+            ? "w-50 lg:w-60 fixed md:relative top-0 left-0 h-full z-100"
             : "w-0"
         }`}
       >
@@ -31,20 +42,44 @@ function Home() {
         } `}
       >
         {/* Header for mobile */}
-        <div className="fixed left-0 flex items-center justify-between p-1 px-4">
-          {/* <div className="text-xl font-bold">deepseek</div> */}
-          <button
-            onClick={() => setIsSidebarOpen(true)}
-            className="cursor-pointer rounded-xl hover:bg-gray-200 hover:text-black p-1.5"
+        <div
+          className={` ${
+            isSidebarOpen ? "hidden-visible" : ""
+          }  w-full border-b border-gray-800 bg-transparent left-0 flex  justify-between p-1.5 px-4`}
+        >
+          <div className="flex gap-1"
+          onClick={() => setIsSidebarOpen((prev) => !prev)}
           >
-            <PanelTopOpen className="w-6 h-6 -rotate-90" />
-          </button>
-          <button
-            className="cursor-pointer hover:bg-gray-200 hover:text-black rounded-xl p-1.5"
-            onClick={() => {navigate("/");}}
-          >
-            <SquarePen className="w-6 h-6" />
-          </button>
+            <div
+              className={`flex items-center gap-1.5 text-[18px] font-bold ${
+                isSidebarOpen ? "hidden" : ""
+              } text-gray-200 py-1`}
+            >
+              <img src={logo} alt="DeepSeek Logo" className="h-7 rounded-lg" />
+              NexAi
+            </div>
+            <button
+              
+              className="cursor-pointer rounded-xl active:scale-95  p-1.5"
+            >
+              {isSidebarOpen ? (
+                <PanelTopOpen className="w-6 h-6 rotate-90" />
+              ) : (
+                <PanelTopOpen className="w-6 h-6 -rotate-90" />
+              )}
+            </button>
+             
+           
+          </div>
+            <button
+              className="cursor-pointer flex items-center gap-1.5 active:scale-95 text-sm rounded-xl px-2"
+              onClick={() => {
+                navigate("/");
+              }}
+            >
+              <SquarePen className="w-6 h-6" />
+              New Chat
+            </button>
         </div>
 
         {/* Message area */}
@@ -53,13 +88,6 @@ function Home() {
         </div>
       </div>
 
-      {/* Overlay on mobile when sidebar is open */}
-      {isSidebarOpen && (
-        <div
-          className="fixed inset-0   bg-opacity-50  md:hidden"
-          onClick={() => setIsSidebarOpen(false)}
-        />
-      )}
     </div>
   );
 }
