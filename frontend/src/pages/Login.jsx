@@ -44,8 +44,9 @@ function Login() {
         toast.success("Login successfully", { id: toastId });
         navigate("/");
       })
-      .catch(() => {
-        toast.error("Request Failed", { id: toastId });
+      .catch((err) => {
+        const errorMsg = err?.message || err?.error || "Request Failed";
+        toast.error(errorMsg, { id: toastId });
       });
   };
 

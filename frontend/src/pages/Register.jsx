@@ -53,7 +53,10 @@ function Register() {
         navigate("/");
       })
       .catch((err) => {
-        toast.error( "Request Failed", { id: toastId });
+        console.log(err);
+        
+        const errorMsg = err?.message || err?.error || "Request Failed";
+       toast.error(errorMsg, { id: toastId });
       });
   };
 

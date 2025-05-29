@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 import axiosClient from "../utils/axiosClient";
 import logo from "../../public/logo.webp";
 import icon from "../../public/icon.webp";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../features/auth/authThunks";
 import { toast } from "react-hot-toast";
 
@@ -14,6 +14,7 @@ function Sidebar({ setIsSidebarOpen, isSidebarOpen }) {
   const dispatch = useDispatch();
   const [firstName, setFirstName] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const { loading } = useSelector((state) => state.auth);
 
   useEffect(() => {
     const fetchChats = async () => {
@@ -59,12 +60,14 @@ function Sidebar({ setIsSidebarOpen, isSidebarOpen }) {
   }, []);
 
   const handleLogout = async () => {
+    if (loading) return; // Prevent multiple clicks
+
     try {
       await dispatch(logoutUser()).unwrap();
-      toast.success("Logout successfully");
+      toast.success("Logged out successfully");
       navigate("/login");
     } catch (err) {
-      toast.error("Logout failed");
+      toast.error(err?.message || "Logout failed");
     }
   };
 
@@ -103,7 +106,7 @@ function Sidebar({ setIsSidebarOpen, isSidebarOpen }) {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <Search className="absolute top-5 left-2 w-5 h-5 text-gray-400"/>
+          <Search className="absolute top-5 left-2 w-5 h-5 text-gray-400" />
         </div>
         {/* Chat List */}
         <div className="flex-1 overflow-auto h-[82%]  py-3 space-y-1">
@@ -155,10 +158,12 @@ function Sidebar({ setIsSidebarOpen, isSidebarOpen }) {
 
         <button
           onClick={handleLogout}
-          className="w-full flex items-center active:scale-98 gap-2 text-white text-sm px-3  py-2 rounded-lg hover:bg-[#726e6e] duration-300 transition cursor-pointer"
+          disabled={loading}
+          className={`w-full flex items-center gap-2 text-white text-sm px-3 py-2 rounded-lg transition duration-300 cursor-pointer
+    ${loading ? "opacity-50 cursor-not-allowed" : "hover:bg-[#726e6e]"}`}
         >
           <LogOut />
-          Logout
+          {loading ? "Logging out..." : "Logout"}
         </button>
       </div>
     </div>
