@@ -155,7 +155,7 @@ function Sidebar({ setIsSidebarOpen, isSidebarOpen }) {
 
         <button
           onClick={handleLogout}
-          className="w-full flex items-center active:scale-98 gap-2 text-white text-sm px-3  py-2 rounded-lg hover:bg-[#726e6e] duration-300 transition cursor-pointer"
+          className="w-full flex items-center active:scale-98 gap-2 text-white text-sm px-3  py-2 rounded-lg hover:bg-[#424242] duration-300 transition cursor-pointer"
         >
           <LogOut />
           Logout
