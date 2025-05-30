@@ -19,7 +19,6 @@ function App() {
   return (
     <>
       <Toaster position="top-center" />
-
       <Routes>
         <Route
           path="/"

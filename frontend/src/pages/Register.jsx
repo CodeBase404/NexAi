@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../features/auth/authThunks";
 import toast from "react-hot-toast";
 import { clearError } from "../features/auth/authSlice";
+import logo from "../../public/logo.webp";
 
 const registerSchema = z
   .object({
@@ -54,23 +55,30 @@ function Register() {
     } catch (err) {
       console.error("Register Error:", err);
       const errorMsg =
-        err?.response?.data?.error ||
-        err?.message ||
-        err?.error ||
-        "Request Failed";
+        err?.response?.data?.error || err?.message || "Register Failed";
       toast.error(errorMsg, { id: toastId });
     }
   };
 
   return (
     <div className="flex  items-center justify-center h-screen">
+      <div class="fixed h-full w-full bg-black">
+        <div class="absolute bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"></div>
+        <div class="absolute left-0 right-0 top-[-10%] h-[1000px] w-[1000px] rounded-full bg-[radial-gradient(circle_400px_at_50%_300px,#fbfbfb36,#000)]"></div>
+      </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col justify-center gap-4 border border-gray-200 h-[65%] w-full max-w-md mx-auto p-6 shadow rounded-xl"
+        className="flex flex-col justify-center gap-4  bg-rose-300/10 backdrop-blur-lg border border-gray-500/20 h-[70%] w-full max-w-md mx-2 md:mx-auto p-6 shadow rounded-xl"
       >
-        <h2 className="text-4xl mb-5 font-semibold text-center">Register</h2>
+        <div className={`flex items-center justify-center mb-5`}>
+          <img
+            src={logo}
+            alt="DeepSeek Logo"
+            className="h-14 mt-0.5 rounded-lg"
+          />
+        </div>
 
-        <div className="relative">
+        <div className="relative text-white">
           <svg
             className="h-[1em] opacity-50 fixed mt-4 ml-3.5"
             xmlns="http://www.w3.org/2000/svg"
@@ -89,7 +97,7 @@ function Register() {
           </svg>
           <input
             {...register("firstName")}
-            className="w-full px-4 py-3 border border-black/20 placeholder:text-sm rounded-md pl-10 outline-none focus:ring-1 focus:ring-blue-500"
+            className="w-full px-4 py-3 border border-white/10 placeholder:text-sm rounded-md pl-10 outline-none focus:ring-1 focus:ring-blue-500"
             placeholder="Name"
           />
           {errors.firstName && (
@@ -99,7 +107,7 @@ function Register() {
           )}
         </div>
 
-        <div className=" relative">
+        <div className="relative text-white">
           <svg
             className="h-[1em] opacity-50 fixed mt-4.5 ml-3.5"
             xmlns="http://www.w3.org/2000/svg"
@@ -119,7 +127,7 @@ function Register() {
           <input
             type="email"
             {...register("emailId")}
-            className="w-full px-4 py-3 border border-black/20 placeholder:text-sm rounded-md pl-10 outline-none focus:ring-1 focus:ring-blue-500"
+            className="w-full px-4 py-3 border border-white/10 placeholder:text-sm rounded-md pl-10 outline-none focus:ring-1 focus:ring-blue-500"
             placeholder="mail@site.com"
           />
           {errors.emailId && (
@@ -129,7 +137,7 @@ function Register() {
           )}
         </div>
 
-        <div className="relative">
+        <div className="relative text-white">
           <svg
             className="h-[1em] opacity-50 fixed mt-4.5 ml-3.5"
             xmlns="http://www.w3.org/2000/svg"
@@ -149,7 +157,7 @@ function Register() {
           <input
             type={showPassword ? "text" : "password"}
             {...register("password")}
-            className="w-full px-4 py-3 border border-black/20 placeholder:text-sm rounded-md pl-10 outline-none focus:ring-1 focus:ring-blue-500"
+            className="w-full px-4 py-3 border border-white/10 placeholder:text-sm rounded-md pl-10 outline-none focus:ring-1 focus:ring-blue-500"
             placeholder="Password"
           />
           {errors.password && (
@@ -159,7 +167,7 @@ function Register() {
           )}
         </div>
 
-        <div className="relative validator">
+        <div className="relative text-white">
           <svg
             className="h-[1em] opacity-50 fixed mt-4.5 ml-3.5"
             xmlns="http://www.w3.org/2000/svg"
@@ -179,7 +187,7 @@ function Register() {
           <input
             type={showPassword ? "text" : "password"}
             {...register("confirmPassword")}
-            className="w-full px-4 py-3 border border-black/20 placeholder:text-sm rounded-md pl-10 outline-none focus:ring-1 focus:ring-blue-500"
+            className="w-full px-4 py-3 border border-white/10 placeholder:text-sm rounded-md pl-10 outline-none focus:ring-1 focus:ring-blue-500"
             placeholder="Re-enter your password"
           />
           <span
@@ -209,7 +217,7 @@ function Register() {
         </button>
 
         <p
-          className="text-center cursor-pointer mt-6 p-0.5 text-[16px] active:text-[15.8px]"
+          className="text-center cursor-pointer mt-6 text-yellow-500 p-0.5 text-[16px] active:text-[15.8px]"
           onClick={() => navigate("/login")}
         >
           Already have an account ?{" "}

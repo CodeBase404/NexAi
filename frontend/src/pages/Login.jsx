@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff, LogIn } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { useNavigate } from "react-router";
 import { z } from "zod";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,6 +9,7 @@ import { loginUser } from "../features/auth/authThunks";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import { clearError } from "../features/auth/authSlice";
+import logo from "../../public/logo.webp";
 
 const registerSchema = z.object({
   emailId: z.string().email("Enter a valid email address"),
@@ -36,28 +37,40 @@ function Login() {
     if (error) dispatch(clearError());
   }, [isAuthenticated, error, dispatch, navigate]);
 
- const onSubmit = async (data) => {
-  const toastId = toast.loading("Logging in...");
+  const onSubmit = async (data) => {
+    const toastId = toast.loading("Logging in...");
 
-  try {
-    await dispatch(loginUser(data)).unwrap();
-    toast.success("Login successful", { id: toastId });
-    navigate("/");
-  } catch (err) {
-    const errorMsg = err?.response?.data?.error || err?.message || "Login failed";
-    toast.error(errorMsg, { id: toastId });
-  }
-};
+    try {
+      await dispatch(loginUser(data)).unwrap();
+      toast.success("Login successful", { id: toastId });
+
+      navigate("/");
+    } catch (err) {
+      console.log("err", err);
+
+      const errorMsg =
+        err?.response?.data?.error || err?.message || "Login failed";
+      toast.error(errorMsg, { id: toastId });
+    }
+  };
 
   return (
     <div className="flex items-center justify-center h-screen">
+      <div class="fixed h-full w-full bg-black">
+        <div class="absolute bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"></div>
+        <div class="absolute left-0 right-0 top-[-10%] h-[1000px] w-[1000px] rounded-full bg-[radial-gradient(circle_400px_at_50%_300px,#fbfbfb36,#000)]"></div>
+      </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col justify-center gap-4 bg-[#ffffff] h-[55%] w-full max-w-md mx-auto p-6 shadow border border-gray-200 rounded-xl"
+        className="flex flex-col justify-center gap-4 bg-rose-300/10 backdrop-blur-lg h-[60%] w-full max-w-md mx-2 md:mx-auto p-6 shadow border border-gray-500/20 rounded-xl"
       >
-        <h2 className="text-4xl mb-5 font-semibold text-center ">Login</h2>
+        <div
+          className={`flex items-center justify-center mb-5`}
+        >
+          <img src={logo} alt="DeepSeek Logo" className="h-14 mt-0.5 rounded-lg" />
+        </div>
 
-        <div className=" relative">
+        <div className="relative text-white">
           <svg
             className="h-[1em] opacity-50 fixed mt-4.5 ml-3.5"
             xmlns="http://www.w3.org/2000/svg"
@@ -77,7 +90,7 @@ function Login() {
           <input
             type="email"
             {...register("emailId")}
-            className="w-full px-4 py-3 border border-black/20  placeholder:text-sm rounded-md pl-10 outline-none focus:ring-1 focus:ring-blue-500"
+            className="w-full px-4 py-3 border border-white/20 placeholder:text-sm rounded-md pl-10 outline-none focus:ring-1 focus:ring-blue-500"
             placeholder="mail@site.com"
           />
           {errors.emailId && (
@@ -85,7 +98,7 @@ function Login() {
           )}
         </div>
 
-        <div className="relative">
+        <div className="relative text-white">
           <svg
             className="h-[1em] opacity-50 fixed mt-4 ml-3.5"
             xmlns="http://www.w3.org/2000/svg"
@@ -105,7 +118,7 @@ function Login() {
           <input
             type={showPassword ? "text" : "password"}
             {...register("password")}
-            className="w-full px-4 py-3 border border-black/20 placeholder:text-sm rounded-md pl-10 outline-none focus:ring-1 focus:ring-blue-500"
+            className="w-full px-4 py-3 border border-white/20 placeholder:text-sm rounded-md pl-10 outline-none focus:ring-1 focus:ring-blue-500"
             placeholder="Password"
             minLength={8}
           />
@@ -140,7 +153,7 @@ function Login() {
         </button>
 
         <p
-          className="text-center cursor-pointer mt-6 p-0.5 text-[16px] active:text-[15.8px]"
+          className="text-center cursor-pointer  text-yellow-500  mt-6 p-0.5 text-[16px] active:text-[15.8px]"
           onClick={() => navigate("/register")}
         >
           Don't have an account ?{" "}
