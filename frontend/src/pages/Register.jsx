@@ -68,9 +68,9 @@ function Register() {
       </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col justify-center gap-4  bg-rose-300/10 backdrop-blur-lg border border-gray-500/20 h-[70%] w-full max-w-md mx-2 md:mx-auto p-6 shadow rounded-xl"
+        className="flex flex-col justify-center gap-4  bg-rose-300/10 backdrop-blur-lg border border-gray-500/20 h-[68%] w-full max-w-md mx-2 md:mx-auto p-6 shadow rounded-xl"
       >
-        <div className={`flex items-center justify-center mb-5`}>
+        <div className={`flex items-center justify-center mb-4`}>
           <img
             src={logo}
             alt="DeepSeek Logo"
@@ -217,7 +217,7 @@ function Register() {
         </button>
 
         <p
-          className="text-center cursor-pointer mt-6 text-yellow-500 p-0.5 text-[16px] active:text-[15.8px]"
+          className="text-center cursor-pointer mt-6 text-white/90 p-0.5 text-[16px] active:text-[15.8px]"
           onClick={() => navigate("/login")}
         >
           Already have an account ?{" "}

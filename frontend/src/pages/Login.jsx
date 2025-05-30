@@ -153,7 +153,7 @@ function Login() {
         </button>
 
         <p
-          className="text-center cursor-pointer  text-yellow-500  mt-6 p-0.5 text-[16px] active:text-[15.8px]"
+          className="text-center cursor-pointer text-white/90 mt-6 p-0.5 text-[16px] active:text-[15.8px]"
           onClick={() => navigate("/register")}
         >
           Don't have an account ?{" "}
