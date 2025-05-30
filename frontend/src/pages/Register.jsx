@@ -68,7 +68,7 @@ function Register() {
       </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col justify-center gap-4  bg-rose-300/10 backdrop-blur-lg border border-gray-500/20 h-[68%] w-full max-w-md mx-2 md:mx-auto p-6 shadow rounded-xl"
+        className="flex flex-col justify-center gap-4  bg-rose-300/10 backdrop-blur-lg border border-gray-500/20 min-h-[66%] w-full max-w-md mx-2 md:mx-auto p-6 shadow rounded-xl"
       >
         <div className={`flex items-center justify-center mb-4`}>
           <img
@@ -211,7 +211,7 @@ function Register() {
           type="submit"
           disabled={loading}
           className={`btn btn-soft btn-primary text-[17px] rounded-md p-6 transition 
-          ${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+          ${loading ? "opacity-50 border border-white/10 cursor-not-allowed" : ""}`}
         >
           {loading ? "Registering..." : "Register"}
         </button>
